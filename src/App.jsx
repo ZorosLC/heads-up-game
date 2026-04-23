@@ -183,18 +183,106 @@ const decks = {
   "Suicide Squad", "Justice League", "Teen Titans", "Watchmen", "Sandman",
   "Lucifer", "Peacemaker", "King Shark", "Amanda Waller", "Booster Gold"
 ],
+"Tarak Mehta Ka Ooltah Chashmah": [
+  "Jethalal", "Daya", "Tapu", "Champaklal", "Bapuji",
+  "Taarak Mehta", "Anjali Mehta", "Atmaram Bhide", "Madhavi Bhide", "Sonu",
+  "Dr Hathi", "Komal Hathi", "Goli", "Roshan Singh Sodhi", "Mrs Roshan Sodhi",
+  "Gogi", "Popatlal", "Abdul", "Bagha", "Nattu Kaka",
+  "Bawri", "Magan", "Sundar", "Rita Reporter", "Inspector Chalu Pandey",
+  "Gokuldham Premier League","Tapu Sena", "Mahila Mandal", "Gokuldham Society",
+  "Gada Electronics", "Bhide Tuition Classes", "Sodhi Garage",
+  "Abdul Shop"
+],
 
-"Sitcoms": [
-  "Friends", "The Office", "Brooklyn Nine Nine", "How I Met Your Mother", "The Big Bang Theory",
-  "Modern Family", "Two and a Half Men", "Parks and Recreation", "Community", "Arrested Development",
-  "Seinfeld", "That 70s Show", "New Girl", "Schitts Creek", "The Good Place",
-  "Young Sheldon", "Full House", "Fuller House", "Everybody Loves Raymond", "Fresh Prince of Bel Air",
-  "Ted Lasso", "The IT Crowd", "Silicon Valley", "Superstore", "Blackish",
-  "Kim's Convenience", "Curb Your Enthusiasm", "Scrubs", "Malcolm in the Middle", "Jane the Virgin",
-  "Fleabag", "The Middle", "Happy Endings", "Rules of Engagement", "Mom",
-  "30 Rock", "Will and Grace", "2 Broke Girls", "Baby Daddy", "Grounded for Life",
-  "TMKOC", "Sarabhai vs Sarabhai", "Khichdi", "Office Office", "FIR",
-  "Bhabiji Ghar Par Hai", "Yes Minister", "Mind Your Language", "Only Fools and Horses", "Extras"
+"Doraemon": [
+  "Doraemon", "Nobita", "Shizuka", "Gian", "Suneo",
+  "Dorami", "Dekisugi", "Nobita Mom", "Nobita Dad", "Teacher",
+  "Anywhere Door", "Time Machine", "Take-copter", "Bamboo Copter",
+  "Small Light", "Big Light", "Air Cannon", "4D Pocket",
+  "Translation Jelly", "Memory Bread",
+  "Future World", "Time Travel", "Robot Cat", "Gadgets",
+  "School", "Playground", "Nobita House", "Shizuka House",
+  "Gian Shop", "Park",
+  "Time Patrol", "Future Gadgets", "Robot Friends",
+  "Space", "Underwater World", "Sky World",
+  "Magic World", "Dream World",
+  "Exam", "Homework", "Classroom",
+  "Baseball Team", "Friend Group",
+  "Secret Gadget", "Adventure Mission",
+  "Robot Army", "Time Journey"
+],
+
+"Friends": [
+  "Ross Geller", "Rachel Green", "Monica Geller", "Chandler Bing", "Joey Tribbiani", "Phoebe Buffay",
+  "Gunther", "Janice", "Mike Hannigan", "Carol Willick", "Susan Bunch", "Ben Geller", "Emma Geller",
+
+  "Central Perk", "Monica Apartment", "Joey and Chandler Apartment", "Ross Apartment",
+  "Coffee House", "Museum", "Office", "Restaurant Kitchen",
+
+  "Friends Group", "Roommates", "Neighbours",
+  "Waitress", "Actor", "Chef", "Paleontologist",
+
+  "Thanksgiving Dinner", "Apartment Switch", "Wedding Planning",
+  "Holiday Party", "Dating Life",
+
+  "Couch", "Coffee", "Guitar", "Smelly Cat",
+  "Foosball Table", "Duck and Chick", "Wedding Dress",
+  "Las Vegas Trip", "London Trip"
+],
+
+"The Office": [
+  "Michael Scott", "Jim Halpert", "Pam Beesly", "Dwight Schrute", "Angela Martin",
+  "Kevin Malone", "Oscar Martinez", "Stanley Hudson", "Phyllis Vance", "Andy Bernard",
+  "Ryan Howard", "Kelly Kapoor", "Toby Flenderson", "Creed Bratton", "Meredith Palmer",
+  "Jan Levinson", "David Wallace", "Holly Flax",
+
+  "Dunder Mifflin", "Scranton Office", "Conference Room", "Reception Desk",
+  "Warehouse", "Break Room", "Parking Lot",
+
+  "Sales Team", "Accounting Team", "HR Department",
+  "Manager Office", "Assistant to the Regional Manager",
+
+  "Office Meeting", "Paper Company", "Sales Call",
+  "Office Party", "Office Olympics", "Training Session",
+
+  "Desk", "Stapler", "Beet Farm", "Printer", "Whiteboard",
+  "Office Prank"
+],
+
+"The Big Bang Theory": [
+  "Sheldon Cooper", "Leonard Hofstadter", "Penny", "Howard Wolowitz", "Raj Koothrappali",
+  "Amy Farrah Fowler", "Bernadette Rostenkowski", "Stuart Bloom",
+
+  "Apartment 4A", "Apartment 4B", "Cheesecake Factory",
+  "Comic Book Store", "University", "Laboratory", "Cafeteria",
+
+  "Physics Department", "Friends Group", "Research Team",
+  "Roommates", "Scientists", "Engineers",
+
+  "Game Night", "Comic Convention", "Science Project",
+  "Space Mission", "Nobel Prize", "Research Work",
+
+  "Whiteboard", "Comic Books", "Video Games",
+  "Chess", "Science Experiments", "Physics",
+  "String Theory", "Quantum Mechanics"
+],
+
+"How I Met Your Mother": [
+  "Ted Mosby", "Robin Scherbatsky", "Marshall Eriksen", "Lily Aldrin", "Barney Stinson",
+  "Tracy McConnell", "Ranjit", "Victoria", "Stella", "James Stinson",
+
+  "MacLaren's Pub", "Ted Apartment", "Bar", "Office",
+  "Law Firm", "Kindergarten", "News Studio",
+
+  "Friends Group", "Roommates", "Couples",
+  "Architect", "Lawyer", "Teacher", "Journalist",
+
+  "Game Night", "Wedding Planning", "Bachelor Party",
+  "Road Trip", "Bar Nights",
+
+  "Suit", "Playbook", "Yellow Umbrella",
+  "Blue French Horn", "High Five",
+  "Slap Bet", "Legendary", "Challenge"
 ],
 
 "Sitcoms": [
@@ -519,30 +607,53 @@ const smallPill = {
       )}
 
       {/* DECK */}
-      {screen === "deck" && (
-        <>
-          <h2>
-  {isQuickPlay
-    ? "Your Turn"
-    : `${players[currentPlayer]}'s Turn`}
-</h2>
+{screen === "deck" && (
+  <>
+    <h2>
+      {isQuickPlay
+        ? "Your Turn"
+        : `${players[currentPlayer]}'s Turn`}
+    </h2>
 
-          {Object.keys(decks).map((deckName) => (
-            <button
-              key={deckName}
-              style={button}
-              onClick={() => {
-                setDeck([...decks[deckName]].sort(() => Math.random() - 0.5));
-                setCardIndex(0);
-                setTime(roundTime);
-                setScreen("game");
-              }}
-            >
-              {deckName}
-            </button>
-          ))}
-        </>
-      )}
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(2, 1fr)",
+        gap: "16px",
+        marginTop: "20px",
+        width: "90%",
+        maxWidth: "400px"
+      }}
+    >
+      {Object.keys(decks).map((deckName) => (
+        <div
+          key={deckName}
+          onClick={() => {
+            setDeck([...decks[deckName]].sort(() => Math.random() - 0.5));
+            setCardIndex(0);
+            setTime(roundTime);
+            setScreen("game");
+          }}
+          style={{
+            padding: "14px",
+            borderRadius: "14px",
+            background: "linear-gradient(135deg, #1abc9c, #16a085)",
+            color: "#000",
+            fontWeight: "bold",
+            textAlign: "center",
+            cursor: "pointer",
+            boxShadow: "0 6px 15px rgba(0,0,0,0.3)",
+            transition: "all 0.2s ease"
+          }}
+          onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.95)")}
+          onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
+        >
+          {deckName}
+        </div>
+      ))}
+    </div>
+  </>
+)}
 
       {/* SETTINGS MODAL */}
       {showSettings && (
