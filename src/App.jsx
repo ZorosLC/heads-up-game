@@ -1,46 +1,18 @@
 import { useState, useEffect, useRef } from "react";
 
-/* =========================
-   DATA
-========================= */
-
 const decks = {
-  "Anime Characters": [
-    "Naruto","Sasuke Uchiha","Luffy","Zoro","Goku","Vegeta","Ichigo Kurosaki",
-    "Eren Yeager","Levi Ackerman","Mikasa Ackerman","Light Yagami","L",
-    "Gojo Satoru","Tanjiro Kamado","Nezuko Kamado","Killua","Gon",
-    "Hisoka","Itachi Uchiha","Madara Uchiha","Kakashi Hatake","Jiraiya",
-    "Orochimaru","Deku","Bakugo","All Might","Todoroki","Asta","Yuno",
-    "Edward Elric","Alphonse Elric","Spike Spiegel","Vash","Kaneki",
-    "Mob","Reigen","Saitama","Genos","Meliodas","Escanor","Ban",
-    "Rimuru","Subaru","Rem","Zero Two","Anos","Denji","Power","Makima"
-  ],
-
-  "Football": [
-    "Lionel Messi","Cristiano Ronaldo","Neymar","Kylian Mbappe","Erling Haaland",
-    "Kevin De Bruyne","Mohamed Salah","Robert Lewandowski","Karim Benzema",
-    "Luka Modric","Zinedine Zidane","Ronaldinho","David Beckham","Andres Iniesta",
-    "Xavi","Sergio Ramos","Virgil van Dijk","Harry Kane","Son Heung-min",
-    "Paul Pogba","Wayne Rooney","Thierry Henry","Didier Drogba",
-    "Frank Lampard","Steven Gerrard","Iker Casillas","Manuel Neuer",
-    "Gianluigi Buffon","Jude Bellingham","Vinicius Junior","Rodrygo",
-    "Pedri","Gavi","Phil Foden","Bukayo Saka","Jack Grealish",
-    "Declan Rice","Bruno Fernandes","Casemiro","Toni Kroos",
-    "Gerard Pique","Carles Puyol","Rio Ferdinand","Paolo Maldini",
-    "Alessandro Del Piero","Francesco Totti","Kaka","Rivaldo"
-  ]
+  Easy: ["Apple", "Car", "Dog", "House", "Phone"],
+  Medium: ["Elephant", "Laptop", "Mountain", "Airport", "Restaurant"],
+  Hard: ["Philosophy", "Quantum Physics", "Artificial Intelligence", "Cryptocurrency", "Metaverse"]
 };
-
-/* =========================
-   APP
-========================= */
 
 export default function App() {
   const [players, setPlayers] = useState([]);
   const [input, setInput] = useState("");
   const [currentPlayer, setCurrentPlayer] = useState(0);
+  const [isQuickPlay, setIsQuickPlay] = useState(false);
 
-  const [screen, setScreen] = useState("players");
+  const [screen, setScreen] = useState("home");
   const [deck, setDeck] = useState([]);
   const [cardIndex, setCardIndex] = useState(0);
   const [time, setTime] = useState(60);
@@ -48,44 +20,27 @@ export default function App() {
   const [scores, setScores] = useState({});
   const [feedback, setFeedback] = useState(null);
 
+  const [showSettings, setShowSettings] = useState(false);
+  const [soundOn, setSoundOn] = useState(true);
+  const [vibrationOn, setVibrationOn] = useState(true);
+  const [roundTime, setRoundTime] = useState(60);
+
   const touchStartX = useRef(null);
 
-  const correctAudio = useRef(null);
-  const passAudio = useRef(null);
+  const correctAudio = useRef(new Audio("https://actions.google.com/sounds/v1/cartoon/pop.ogg"));
+  const passAudio = useRef(new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"));
 
-  // ✅ PRELOAD + WARMUP (NO DELAY)
-  useEffect(() => {
-    correctAudio.current = new Audio("https://actions.google.com/sounds/v1/cartoon/pop.ogg");
-    passAudio.current = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
-
-    correctAudio.current.volume = 0.4;
-    passAudio.current.volume = 0.4;
-
-    const unlock = () => {
-      correctAudio.current.play().then(() => {
-        correctAudio.current.pause();
-        correctAudio.current.currentTime = 0;
-      });
-      passAudio.current.play().then(() => {
-        passAudio.current.pause();
-        passAudio.current.currentTime = 0;
-      });
-      window.removeEventListener("touchstart", unlock);
-    };
-
-    window.addEventListener("touchstart", unlock);
-  }, []);
-
-  // ⚡ INSTANT SOUND
   const playSound = (type) => {
+    if (!soundOn) return;
     const audio = type === "correct" ? correctAudio.current : passAudio.current;
-    if (!audio) return;
-
     audio.currentTime = 0;
     audio.play();
   };
 
-  // TIMER
+  const vibrate = () => {
+    if (vibrationOn && navigator.vibrate) navigator.vibrate(100);
+  };
+
   useEffect(() => {
     if (screen === "game" && time > 0) {
       const t = setTimeout(() => setTime((t) => t - 1), 1000);
@@ -94,64 +49,57 @@ export default function App() {
     if (time === 0 && screen === "game") endRound();
   }, [time, screen]);
 
-  const triggerFeedback = (type) => {
-    playSound(type);
-    setFeedback(type);
-
-    setTimeout(() => {
-      setFeedback(null);
-      nextCard();
-    }, 600);
-  };
-
-  const handleTouchStart = (e) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-
-  const handleTouchEnd = (e) => {
-    if (touchStartX.current === null) return;
-
-    const diff = touchStartX.current - e.changedTouches[0].clientX;
-
-    if (Math.abs(diff) < 50) return;
-
-    if (diff > 0) {
-      handleCorrect();
-      triggerFeedback("correct");
-    } else {
-      triggerFeedback("pass");
-    }
-
-    touchStartX.current = null;
-  };
-
-  const startGame = (name) => {
-    setDeck([...decks[name]].sort(() => Math.random() - 0.5));
-    setCardIndex(0);
-    setTime(60);
-    setScreen("game");
-  };
-
-  const handleCorrect = () => {
-    const player = players[currentPlayer];
-    setScores((prev) => ({
-      ...prev,
-      [player]: (prev[player] || 0) + 1
-    }));
-  };
-
   const nextCard = () => {
     setCardIndex((prev) =>
       prev + 1 >= deck.length ? prev : prev + 1
     );
   };
 
+  const trigger = (type) => {
+    playSound(type);
+    vibrate();
+    setFeedback(type);
+
+    if (type === "correct") {
+      const player = isQuickPlay ? "You" : players[currentPlayer];
+      setScores((prev) => ({
+        ...prev,
+        [player]: (prev[player] || 0) + 1
+      }));
+    }
+
+    setTimeout(() => {
+      setFeedback(null);
+      nextCard();
+    }, 400);
+  };
+
+  const handleTouchStart = (e) => {
+    if (screen !== "game") return;
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e) => {
+    if (screen !== "game") return;
+
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) < 50) return;
+
+    if (diff > 0) trigger("correct");
+    else trigger("pass");
+  };
+
   const endRound = () => {
+    if (isQuickPlay) {
+      setScreen("leaderboard");
+      return;
+    }
+
     if (currentPlayer < players.length - 1) {
       setCurrentPlayer((p) => p + 1);
       setScreen("deck");
-      setTime(60);
     } else {
+      setCurrentPlayer(0);
       setScreen("leaderboard");
     }
   };
@@ -166,97 +114,331 @@ export default function App() {
     setPlayers([]);
     setScores({});
     setCurrentPlayer(0);
-    setScreen("players");
+    setIsQuickPlay(false);
+    setScreen("home");
   };
 
   const button = {
-    padding: "12px 20px",
-    margin: "10px",
-    borderRadius: "12px",
+    padding: "14px 22px",
+    borderRadius: "14px",
     border: "none",
-    background: "#1f1f1f",
+    background: "#2c3e50",
     color: "#fff",
+    marginTop: "20px",
     fontSize: "16px",
     cursor: "pointer"
   };
 
+  const toggle = (active) => ({
+    padding: "10px 16px",
+    borderRadius: "20px",
+    border: "none",
+    background: active ? "#00e676" : "#555",
+    color: active ? "#000" : "#fff",
+    fontWeight: "bold",
+    cursor: "pointer"
+  });
+
+  const pill = {
+  padding: "10px 14px",
+  borderRadius: "999px",
+  border: "none",
+  background: "#2c3e50",
+  color: "#fff",
+  fontWeight: "bold",
+  cursor: "pointer",
+  fontSize: "13px"
+};
+
+const smallPill = {
+  padding: "6px 10px",
+  borderRadius: "999px",
+  border: "none",
+  background: "#34495e",
+  color: "#fff",
+  cursor: "pointer",
+  fontSize: "12px"
+};
+
+
+  const handleRamanClick = (e) => {
+    const messages = [
+      "Not possible",
+      "Access denied",
+      "Nice try",
+      "This stays ON",
+      "You cannot escape Raman",
+      "Feature locked forever",
+      "Why would you even try?",
+      "System override failed",
+      "Error: System incapable of stopping",
+      "You wish",
+      "I'm always TURNED ON"
+    ];
+
+    const msg = messages[Math.floor(Math.random() * messages.length)];
+    alert(msg);
+
+    const btn = e.currentTarget;
+    btn.style.animation = "shake 0.3s";
+
+    setTimeout(() => {
+      btn.style.animation = "";
+    }, 300);
+  };
+
   return (
     <div
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
       style={{
         height: "100vh",
-        background: "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
-        color: "#fff",
+        background: "linear-gradient(135deg,#141e30,#243b55)",
+        color: "white",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        flexDirection: "column",
-        fontFamily: "sans-serif"
+        flexDirection: "column"
       }}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
     >
+
+      {/* SETTINGS ICON */}
+      <div
+        onClick={() => setShowSettings(true)}
+        style={{
+          position: "absolute",
+          top: 20,
+          right: 20,
+          fontSize: 24,
+          cursor: "pointer"
+        }}
+      >
+        ⚙️
+      </div>
+
+      {/* FEEDBACK */}
+      {feedback && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: feedback === "correct" ? "#00e676" : "#ff5252",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000
+          }}
+        >
+          <div style={{ transform: "rotate(90deg)", fontSize: "60px", fontWeight: "bold", color: "#000" }}>
+            {feedback.toUpperCase()}
+          </div>
+        </div>
+      )}
+
+      {/* HOME */}
+      {screen === "home" && (
+        <>
+          <h1 style={{ fontSize: "42px" }}>HEADS UP</h1>
+          <p style={{ opacity: 0.7 }}>(but free 😉)</p>
+
+          <button style={button} onClick={() => {
+            setIsQuickPlay(true);
+            setScreen("deck");
+          }}>
+            Quick Play
+          </button>
+
+          <button style={button} onClick={() => {
+            setIsQuickPlay(false);
+            setScreen("players");
+          }}>
+            Multiplayer
+          </button>
+        </>
+      )}
+
+      {/* PLAYERS */}
       {screen === "players" && (
         <>
-          <h1>Heads Up</h1>
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            style={{ padding: 10, borderRadius: 8 }}
-          />
-          <button style={button} onClick={addPlayer}>Add Player</button>
+          <h2>Add Players</h2>
+          <input value={input} onChange={(e) => setInput(e.target.value)} />
+          <button style={button} onClick={addPlayer}>Add</button>
+
+          {players.map((p, i) => <div key={i}>{p}</div>)}
+
           {players.length > 0 && (
             <button style={button} onClick={() => setScreen("deck")}>
-              Start Game
+              Continue
             </button>
           )}
         </>
       )}
 
+      {/* DECK */}
       {screen === "deck" && (
         <>
-          <h2>{players[currentPlayer]}'s Turn</h2>
-          {Object.keys(decks).map((d) => (
-            <button key={d} style={button} onClick={() => startGame(d)}>
-              {d}
+          <h2>
+  {isQuickPlay
+    ? "Your Turn"
+    : `${players[currentPlayer]}'s Turn`}
+</h2>
+
+          {Object.keys(decks).map((deckName) => (
+            <button
+              key={deckName}
+              style={button}
+              onClick={() => {
+                setDeck([...decks[deckName]].sort(() => Math.random() - 0.5));
+                setCardIndex(0);
+                setTime(roundTime);
+                setScreen("game");
+              }}
+            >
+              {deckName}
             </button>
           ))}
         </>
       )}
 
-      {screen === "game" && deck.length > 0 && (
-        <div style={{ transform: "rotate(90deg)", textAlign: "center" }}>
-          {feedback ? (
-            <h1 style={{ color: feedback === "correct" ? "#00e676" : "#ff5252" }}>
-              {feedback.toUpperCase()}
-            </h1>
-          ) : (
-            <>
-              <h2>{players[currentPlayer]}</h2>
-              <h3>{time}s</h3>
-              <div
-                style={{
-                  fontSize: "clamp(30px, 6vw, 60px)",
-                  padding: "30px",
-                  background: "#1e1e1e",
-                  borderRadius: "20px",
-                  marginTop: 20
-                }}
-              >
-                {deck[cardIndex]}
-              </div>
-            </>
-          )}
+      {/* SETTINGS MODAL */}
+      {showSettings && (
+        <div style={{
+          position: "fixed",
+          inset: 0,
+          background: "rgba(0,0,0,0.7)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          zIndex: 2000
+        }}>
+          <div style={{
+            background: "#1f2a38",
+            padding: "24px 20px",
+            borderRadius: "20px",
+            width: "320px"
+          }}>
+            <h3>⚙️ Settings</h3>
+
+            <div style={{ display: "flex", justifyContent: "space-between", marginTop: 18 }}>
+              <span>🔊 Sound</span>
+              <button style={toggle(soundOn)} onClick={() => setSoundOn(!soundOn)}>
+                {soundOn ? "ON" : "OFF"}
+              </button>
+            </div>
+
+            <div style={{ display: "flex", justifyContent: "space-between", marginTop: 18 }}>
+              <span>😈 Trouble Raman</span>
+              <button style={toggle(true)} onClick={handleRamanClick}>ON</button>
+            </div>
+
+            <div style={{ display: "flex", justifyContent: "space-between", marginTop: 18 }}>
+              <span>📳 Vibration</span>
+              <button style={toggle(vibrationOn)} onClick={() => setVibrationOn(!vibrationOn)}>
+                {vibrationOn ? "ON" : "OFF"}
+              </button>
+            </div>
+
+            {/* TIMER */}
+<div
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: "18px"
+  }}
+>
+  <span style={{ opacity: 0.8 }}>⏱ Timer</span>
+
+  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+    <button
+      style={smallPill}
+      onClick={() => setRoundTime((t) => Math.max(30, t - 30))}
+    >
+      −
+    </button>
+
+    <div
+      style={{
+        padding: "6px 12px",
+        borderRadius: "999px",
+        background: "#d8e3de",
+        color: "#000",
+        fontWeight: "bold",
+        minWidth: "50px",
+        textAlign: "center"
+      }}
+    >
+      {roundTime}s
+    </div>
+
+    <button
+      style={smallPill}
+      onClick={() => setRoundTime((t) => t + 30)}
+    >
+      +
+    </button>
+  </div>
+</div>
+            <div
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    marginTop: "18px",
+    gap: "10px"
+  }}
+>
+  <button
+    style={{ ...pill, background: "#e74c3c" }}
+    onClick={() => {
+      setShowSettings(false);
+      endRound();
+    }}
+  >
+    ⏭ Skip
+  </button>
+             <button
+    style={{ ...pill, background: "#95a5a6", color: "#000" }}
+    onClick={() => {
+      setShowSettings(false);
+      resetGame();
+    }}
+  >
+    🏠 Home
+  </button>
+            </div>
+
+            <button
+  style={{
+    ...pill,
+    width: "100%",
+    marginTop: "20px",
+    background: "#34495e"
+  }}
+  onClick={() => setShowSettings(false)}
+>
+  ✕ Close
+</button>
+          </div>
         </div>
       )}
 
+      {/* GAME */}
+      {screen === "game" && (
+        <div style={{ transform: "rotate(90deg)", textAlign: "center" }}>
+          <h2>{time}s</h2>
+          <h1>{deck[cardIndex]}</h1>
+        </div>
+      )}
+
+      {/* LEADERBOARD */}
       {screen === "leaderboard" && (
         <>
           <h2>Leaderboard</h2>
           {Object.entries(scores).map(([p, s]) => (
             <div key={p}>{p}: {s}</div>
           ))}
-          <button style={button} onClick={() => setScreen("deck")}>Play Again</button>
-          <button style={button} onClick={resetGame}>New Game</button>
+          <button style={button} onClick={() => setScreen("deck")}>Next Round</button>
+          <button style={button} onClick={resetGame}>Home</button>
         </>
       )}
     </div>
