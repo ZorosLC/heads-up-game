@@ -361,7 +361,7 @@ const deckMeta = {
   "Doraemon": { icon: "🤖", color: "#3498db" },
 
   "Friends": { icon: "☕", color: "#e67e22" },
-  "The Office": { icon: "📎", color: "#7f8c8d" },
+  "The Office": { icon: "📎", color: "#e2a319" },
   "The BBT": { icon: "🧠", color: "#9b59b6" },
   "HIMYM": { icon: "🍺", color: "#2980b9" },
 
