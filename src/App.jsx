@@ -642,7 +642,18 @@ const smallPill = {
 
       {/* DECK */}
 {screen === "deck" && (
-  <>
+  <div
+    style={{
+      height: "100vh",
+      width: "100%",
+      overflowY: "auto",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      paddingTop: "20px",
+      paddingBottom: "40px"
+    }}
+  >
     <h2>
       {isQuickPlay
         ? "Your Turn"
@@ -654,49 +665,49 @@ const smallPill = {
         display: "grid",
         gridTemplateColumns: "repeat(2, 1fr)",
         gap: "16px",
-        marginTop: "20px",
+        margin: "20px auto",
         width: "90%",
         maxWidth: "400px"
       }}
     >
       {Object.keys(decks).map((deckName) => {
-  const meta = deckMeta[deckName] || { icon: "🎲", color: "#7f8c8d" };
+        const meta = deckMeta[deckName] || { icon: "🎲", color: "#7f8c8d" };
 
-  return (
-    <div
-      key={deckName}
-      onClick={() => {
-        setDeck([...decks[deckName]].sort(() => Math.random() - 0.5));
-        setCardIndex(0);
-        setTime(roundTime);
-        setScreen("game");
-      }}
-      style={{
-        padding: "14px",
-        borderRadius: "14px",
-        background: `linear-gradient(135deg, ${meta.color}, #111)`,
-        color: "#fff",
-        fontWeight: "bold",
-        textAlign: "center",
-        cursor: "pointer",
-        boxShadow: "0 6px 15px rgba(0,0,0,0.3)",
-        transition: "all 0.2s ease"
-      }}
-      onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.95)")}
-      onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
-    >
-      <div style={{ fontSize: "20px", marginBottom: "6px" }}>
-        {meta.icon}
-      </div>
+        return (
+          <div
+            key={deckName}
+            onClick={() => {
+              setDeck([...decks[deckName]].sort(() => Math.random() - 0.5));
+              setCardIndex(0);
+              setTime(roundTime);
+              setScreen("game");
+            }}
+            style={{
+              padding: "14px",
+              borderRadius: "14px",
+              background: `linear-gradient(135deg, ${meta.color}, #111)`,
+              color: "#fff",
+              fontWeight: "bold",
+              textAlign: "center",
+              cursor: "pointer",
+              boxShadow: "0 6px 15px rgba(0,0,0,0.3)",
+              transition: "all 0.2s ease"
+            }}
+            onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.95)")}
+            onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
+          >
+            <div style={{ fontSize: "20px", marginBottom: "6px" }}>
+              {meta.icon}
+            </div>
 
-      <div style={{ fontSize: "13px" }}>
-        {deckName}
-      </div>
+            <div style={{ fontSize: "13px" }}>
+              {deckName}
+            </div>
+          </div>
+        );
+      })}
     </div>
-  );
-})}
-    </div>
-  </>
+  </div>
 )}
 
       {/* SETTINGS MODAL */}
