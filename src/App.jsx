@@ -1,9 +1,253 @@
 import { useState, useEffect, useRef } from "react";
 
 const decks = {
-  Easy: ["Apple", "Car", "Dog", "House", "Phone"],
-  Medium: ["Elephant", "Laptop", "Mountain", "Airport", "Restaurant"],
-  Hard: ["Philosophy", "Quantum Physics", "Artificial Intelligence", "Cryptocurrency", "Metaverse"]
+
+  "Anime": [
+    "Naruto", "One Piece", "Attack on Titan", "Death Note", "Demon Slayer",
+    "Jujutsu Kaisen", "Tokyo Ghoul", "My Hero Academia", "Dragon Ball Z", "Bleach",
+    "Fullmetal Alchemist", "Hunter x Hunter", "Black Clover", "Chainsaw Man", "Vinland Saga",
+    "Steins Gate", "Code Geass", "Sword Art Online", "Blue Lock", "Haikyuu",
+    "Fairy Tail", "Mob Psycho 100", "Re Zero", "Overlord", "Parasyte",
+    "Akame ga Kill", "Dr Stone", "Fire Force", "Noragami", "Gintama",
+    "Kuroko no Basket", "Food Wars", "Spy x Family", "The Promised Neverland", "Berserk",
+    "JoJo's Bizarre Adventure", "Cowboy Bebop", "Neon Genesis Evangelion", "Trigun", "Erased",
+    "Horimiya", "Your Lie in April", "Clannad", "Angel Beats", "Another",
+    "Tokyo Revengers", "Made in Abyss", "Zom 100", "Hell's Paradise", "Monster"
+  ],
+
+  "Car Brands": [
+    "Toyota", "Honda", "BMW", "Mercedes Benz", "Audi",
+    "Lamborghini", "Ferrari", "Porsche", "Bugatti", "McLaren",
+    "Tesla", "Ford", "Chevrolet", "Volkswagen", "Hyundai",
+    "Kia", "Nissan", "Mazda", "Subaru", "Jaguar",
+    "Land Rover", "Rolls Royce", "Bentley", "Aston Martin", "Volvo",
+    "Skoda", "Renault", "Peugeot", "Citroen", "Mini",
+    "Dodge", "Jeep", "Chrysler", "GMC", "Cadillac",
+    "Infiniti", "Acura", "Genesis", "Suzuki", "Mitsubishi",
+    "Tata Motors", "Mahindra", "MG Motors", "BYD", "Rivian",
+    "Lucid Motors", "Koenigsegg", "Pagani", "Alfa Romeo", "Fiat"
+  ],
+
+  "Food": [
+    "Pizza", "Burger", "Pasta", "Biryani", "Fried Rice",
+    "Butter Chicken", "Paneer Tikka", "Sushi", "Ramen", "Noodles",
+    "Tacos", "Burrito", "Hot Dog", "Sandwich", "Fries",
+    "Ice Cream", "Chocolate Cake", "Donut", "Cupcake", "Brownie",
+    "Waffles", "Pancakes", "Omelette", "Scrambled Eggs", "Salad",
+    "Soup", "Steak", "Grilled Chicken", "Fish Curry", "Dosa",
+    "Idli", "Vada Pav", "Pav Bhaji", "Chole Bhature", "Rajma Chawal",
+    "Dal Makhani", "Kebab", "Shawarma", "Falafel", "Hummus",
+    "Nachos", "Popcorn", "Mac and Cheese", "Lasagna", "Risotto",
+    "Croissant", "Bagel", "Samosa", "Spring Rolls", "Dim Sum"
+  ],
+
+  "Brands": [
+    "Apple", "Samsung", "Nike", "Adidas", "Puma",
+    "Gucci", "Louis Vuitton", "Zara", "H&M", "Uniqlo",
+    "Coca Cola", "Pepsi", "Starbucks", "McDonalds", "KFC",
+    "Dominos", "Pizza Hut", "Subway", "Burger King", "Amazon",
+    "Flipkart", "Google", "Microsoft", "Meta", "Netflix",
+    "YouTube", "Spotify", "Uber", "Ola", "Paytm",
+    "PhonePe", "Visa", "Mastercard", "Rolex", "Casio",
+    "Tissot", "Levis", "Calvin Klein", "Tommy Hilfiger", "Reebok",
+    "Dell", "HP", "Lenovo", "Asus", "Acer",
+    "Sony", "LG", "Panasonic", "Philips", "Bose"
+  ],
+
+  "Video Games": [
+    "GTA V", "Call of Duty", "FIFA", "Fortnite", "Minecraft",
+    "PUBG", "Valorant", "CSGO", "Apex Legends", "League of Legends",
+    "Dota 2", "Elden Ring", "Dark Souls", "Sekiro", "Cyberpunk 2077",
+    "Red Dead Redemption 2", "Assassin's Creed", "God of War", "The Last of Us", "Uncharted",
+    "Resident Evil", "Silent Hill", "Far Cry", "Watch Dogs", "Hitman",
+    "Need for Speed", "Forza Horizon", "Gran Turismo", "Rocket League", "Among Us",
+    "Fall Guys", "Clash of Clans", "Clash Royale", "Candy Crush", "Temple Run",
+    "Subway Surfers", "Mario Kart", "Super Mario", "Zelda", "Pokemon",
+    "Animal Crossing", "Overwatch", "Battlefield", "Halo", "Destiny",
+    "Warframe", "Diablo", "Starfield", "The Witcher 3", "Hades"
+  ],
+
+  "Bollywood Movies": [
+  "3 Idiots", "Dangal", "PK", "Sholay", "Kabir Singh",
+  "Zindagi Na Milegi Dobara", "Dil Chahta Hai", "War", "Pathaan", "Jawan",
+  "Andhadhun", "Drishyam", "Gangs of Wasseypur", "Queen", "Barfi",
+  "Bajrangi Bhaijaan", "Chennai Express", "Kick", "Don", "Don 2",
+  "Kal Ho Naa Ho", "Kuch Kuch Hota Hai", "My Name is Khan", "Raees", "Fan",
+  "Badhaai Ho", "Stree", "Bhool Bhulaiyaa", "Hera Pheri", "Phir Hera Pheri",
+  "Golmaal", "Golmaal Returns", "Housefull", "Housefull 2", "Tiger Zinda Hai",
+  "Ek Tha Tiger", "Rockstar", "Tamasha", "Yeh Jawaani Hai Deewani", "Student of the Year",
+  "Kesari", "Uri", "Special 26", "Baby", "Airlift",
+  "Raazi", "Talaash", "Agneepath", "Devdas", "Swades"
+],
+
+"Bollywood Songs": [
+  "Tum Hi Ho", "Kesariya", "Chaiyya Chaiyya", "Kal Ho Naa Ho", "Tujh Mein Rab Dikhta Hai",
+  "Kabira", "Agar Tum Saath Ho", "Galliyan", "Raabta", "Ghungroo",
+  "Jai Ho", "Sheila Ki Jawani", "Munni Badnaam", "Badtameez Dil", "Subhanallah",
+  "Nashe Si Chadh Gayi", "Bekhayali", "Apna Bana Le", "Ilahi", "Zaalima",
+  "Dil Diyan Gallan", "Gerua", "Janam Janam", "Pee Loon", "Tum Se Hi",
+  "Tera Hone Laga Hoon", "Tera Ban Jaunga", "Dilbar", "O Saki Saki", "Kar Gayi Chull",
+  "Bom Diggy", "Morni Banke", "London Thumakda", "Nagada Sang Dhol", "Deewani Mastani",
+  "Malhari", "Nagada", "Radha", "Hookah Bar", "Party All Night",
+  "Kala Chashma", "High Rated Gabru", "Suit Suit", "Proper Patola", "Dil Chori",
+  "Aankh Marey", "Coca Cola", "Naacho Naacho", "Jhoome Jo Pathaan", "Besharam Rang"
+],
+
+"Hollywood Movies": [
+  "Inception", "Interstellar", "The Dark Knight", "Titanic", "Avatar",
+  "Avengers Endgame", "Avengers Infinity War", "Iron Man", "Spider Man No Way Home", "Joker",
+  "The Matrix", "Gladiator", "The Godfather", "Fight Club", "Forrest Gump",
+  "The Shawshank Redemption", "Jurassic Park", "The Lion King", "Frozen", "Toy Story",
+  "Finding Nemo", "Cars", "Up", "Coco", "Inside Out",
+  "Doctor Strange", "Black Panther", "Thor Ragnarok", "Captain America Civil War", "Deadpool",
+  "Logan", "The Wolverine", "Transformers", "Fast and Furious", "John Wick",
+  "Mission Impossible", "Top Gun Maverick", "Mad Max Fury Road", "Dune", "Oppenheimer",
+  "Tenet", "The Batman", "Aquaman", "Justice League", "Suicide Squad",
+  "Harry Potter", "Fantastic Beasts", "Pirates of the Caribbean", "The Hobbit", "The Lord of the Rings"
+],
+
+"Hollywood Actors": [
+  "Leonardo DiCaprio", "Brad Pitt", "Tom Cruise", "Robert Downey Jr", "Chris Evans",
+  "Chris Hemsworth", "Scarlett Johansson", "Jennifer Lawrence", "Angelina Jolie", "Will Smith",
+  "Dwayne Johnson", "Keanu Reeves", "Johnny Depp", "Morgan Freeman", "Samuel L Jackson",
+  "Hugh Jackman", "Ryan Reynolds", "Mark Wahlberg", "Christian Bale", "Joaquin Phoenix",
+  "Matt Damon", "Ben Affleck", "Henry Cavill", "Gal Gadot", "Margot Robbie",
+  "Emma Watson", "Daniel Radcliffe", "Rupert Grint", "Tom Holland", "Zendaya",
+  "Timothee Chalamet", "Florence Pugh", "Anya Taylor Joy", "Chris Pratt", "Paul Rudd",
+  "Jeremy Renner", "Sebastian Stan", "Anthony Mackie", "Idris Elba", "Michael B Jordan",
+  "Jamie Foxx", "Eddie Murphy", "Jim Carrey", "Adam Sandler", "Jack Black",
+  "Jason Statham", "Vin Diesel", "Jason Momoa", "Oscar Isaac", "Pedro Pascal"
+],
+
+"IPL": [
+  "Mumbai Indians", "Chennai Super Kings", "Royal Challengers Bangalore", "Kolkata Knight Riders", "Delhi Capitals",
+  "Sunrisers Hyderabad", "Rajasthan Royals", "Punjab Kings", "Lucknow Super Giants", "Gujarat Titans",
+  "MS Dhoni", "Rohit Sharma", "Virat Kohli", "AB de Villiers", "Chris Gayle",
+  "Hardik Pandya", "Jasprit Bumrah", "KL Rahul", "Rishabh Pant", "Shubman Gill",
+  "David Warner", "Kane Williamson", "Andre Russell", "Sunil Narine", "Yuzvendra Chahal",
+  "Jos Buttler", "Sanju Samson", "Ben Stokes", "Ravindra Jadeja", "Dwayne Bravo",
+  "Lasith Malinga", "Harbhajan Singh", "Suresh Raina", "Gautam Gambhir", "Zaheer Khan",
+  "Brendon McCullum", "Faf du Plessis", "Glenn Maxwell", "Nicholas Pooran", "Marcus Stoinis",
+  "Quinton de Kock", "Trent Boult", "Kagiso Rabada", "Pat Cummins", "Mitchell Starc",
+  "Bhuvneshwar Kumar", "Ishan Kishan", "Deepak Chahar", "Prithvi Shaw", "Axar Patel"
+],
+
+"Football": [
+  "Lionel Messi", "Cristiano Ronaldo", "Neymar Jr", "Kylian Mbappe", "Erling Haaland",
+  "Kevin De Bruyne", "Luka Modric", "Karim Benzema", "Mohamed Salah", "Harry Kane",
+  "Robert Lewandowski", "Sadio Mane", "Antoine Griezmann", "Vinicius Jr", "Jude Bellingham",
+  "Pedri", "Gavi", "Sergio Ramos", "Gerard Pique", "Paul Pogba",
+  "Zlatan Ibrahimovic", "Wayne Rooney", "David Beckham", "Ronaldinho", "Thierry Henry",
+  "Xavi Hernandez", "Andres Iniesta", "Iker Casillas", "Manuel Neuer", "Alisson Becker",
+  "Real Madrid", "Barcelona", "Manchester United", "Manchester City", "Liverpool",
+  "Chelsea", "Arsenal", "Bayern Munich", "PSG", "Juventus",
+  "Serie A", "La Liga", "Premier League", "Champions League", "Europa League",
+  "FIFA World Cup", "UEFA Euro", "Copa America", "El Clasico", "Ballon d'Or"
+],
+
+"NBA": [
+  "LeBron James", "Stephen Curry", "Kevin Durant", "Michael Jordan", "Kobe Bryant",
+  "Shaquille O Neal", "Tim Duncan", "Kawhi Leonard", "James Harden", "Giannis Antetokounmpo",
+  "Luka Doncic", "Nikola Jokic", "Joel Embiid", "Russell Westbrook", "Damian Lillard",
+  "Chris Paul", "Anthony Davis", "Devin Booker", "Jayson Tatum", "Ja Morant",
+  "Zion Williamson", "Kyrie Irving", "Paul George", "Jimmy Butler", "Draymond Green",
+  "Klay Thompson", "Dwyane Wade", "Dirk Nowitzki", "Allen Iverson", "Tracy McGrady",
+  "Scottie Pippen", "Dennis Rodman", "Magic Johnson", "Larry Bird", "Steve Nash",
+  "Charles Barkley", "Yao Ming", "Vince Carter", "Ray Allen", "Reggie Miller",
+  "Boston Celtics", "Los Angeles Lakers", "Golden State Warriors", "Chicago Bulls", "Miami Heat",
+  "Brooklyn Nets", "Phoenix Suns", "Dallas Mavericks", "Milwaukee Bucks", "Denver Nuggets"
+],
+
+"Marvel": [
+  "Iron Man", "Captain America", "Thor", "Hulk", "Black Widow",
+  "Hawkeye", "Spider Man", "Doctor Strange", "Black Panther", "Scarlet Witch",
+  "Vision", "Falcon", "Winter Soldier", "Ant Man", "Wasp",
+  "Star Lord", "Gamora", "Drax", "Rocket", "Groot",
+  "Loki", "Thanos", "Nick Fury", "Maria Hill", "Shang Chi",
+  "Moon Knight", "She Hulk", "Ms Marvel", "Captain Marvel", "Deadpool",
+  "Wolverine", "Professor X", "Magneto", "Cyclops", "Storm",
+  "Jean Grey", "Beast", "Nightcrawler", "Quicksilver", "Cable",
+  "Venom", "Carnage", "Green Goblin", "Doctor Octopus", "Sandman",
+  "Mysterio", "Vulture", "Ultron", "Red Skull", "Killmonger"
+],
+
+"Marvel": [
+  "Iron Man", "Captain America", "Thor", "Hulk", "Black Widow",
+  "Hawkeye", "Spider Man", "Doctor Strange", "Black Panther", "Scarlet Witch",
+  "Vision", "Falcon", "Winter Soldier", "Ant Man", "Wasp",
+  "Star Lord", "Gamora", "Drax", "Rocket", "Groot",
+  "Loki", "Thanos", "Nick Fury", "Maria Hill", "Shang Chi",
+  "Moon Knight", "She Hulk", "Ms Marvel", "Captain Marvel", "Deadpool",
+  "Wolverine", "Professor X", "Magneto", "Cyclops", "Storm",
+  "Jean Grey", "Beast", "Nightcrawler", "Quicksilver", "Cable",
+  "Venom", "Carnage", "Green Goblin", "Doctor Octopus", "Sandman",
+  "Mysterio", "Vulture", "Ultron", "Red Skull", "Killmonger"
+],
+
+"Sitcoms": [
+  "Friends", "The Office", "Brooklyn Nine Nine", "How I Met Your Mother", "The Big Bang Theory",
+  "Modern Family", "Two and a Half Men", "Parks and Recreation", "Community", "Arrested Development",
+  "Seinfeld", "That 70s Show", "New Girl", "Schitts Creek", "The Good Place",
+  "Young Sheldon", "Full House", "Fuller House", "Everybody Loves Raymond", "Fresh Prince of Bel Air",
+  "Ted Lasso", "The IT Crowd", "Silicon Valley", "Superstore", "Blackish",
+  "Kim's Convenience", "Curb Your Enthusiasm", "Scrubs", "Malcolm in the Middle", "Jane the Virgin",
+  "Fleabag", "The Middle", "Happy Endings", "Rules of Engagement", "Mom",
+  "30 Rock", "Will and Grace", "2 Broke Girls", "Baby Daddy", "Grounded for Life",
+  "TMKOC", "Sarabhai vs Sarabhai", "Khichdi", "Office Office", "FIR",
+  "Bhabiji Ghar Par Hai", "Yes Minister", "Mind Your Language", "Only Fools and Horses", "Extras"
+],
+
+"Sitcoms": [
+  "Friends", "The Office", "Brooklyn Nine Nine", "How I Met Your Mother", "The Big Bang Theory",
+  "Modern Family", "Two and a Half Men", "Parks and Recreation", "Community", "Arrested Development",
+  "Seinfeld", "That 70s Show", "New Girl", "Schitts Creek", "The Good Place",
+  "Young Sheldon", "Full House", "Fuller House", "Everybody Loves Raymond", "Fresh Prince of Bel Air",
+  "Ted Lasso", "The IT Crowd", "Silicon Valley", "Superstore", "Blackish",
+  "Kim's Convenience", "Curb Your Enthusiasm", "Scrubs", "Malcolm in the Middle", "Jane the Virgin",
+  "Fleabag", "The Middle", "Happy Endings", "Rules of Engagement", "Mom",
+  "30 Rock", "Will and Grace", "2 Broke Girls", "Baby Daddy", "Grounded for Life",
+  "TMKOC", "Sarabhai vs Sarabhai", "Khichdi", "Office Office", "FIR",
+  "Bhabiji Ghar Par Hai", "Yes Minister", "Mind Your Language", "Only Fools and Horses", "Extras"
+],
+
+"Sports": [
+  "Cricket", "Football", "Basketball", "Tennis", "Badminton",
+  "Hockey", "Baseball", "Rugby", "Golf", "Table Tennis",
+  "Swimming", "Athletics", "Boxing", "Wrestling", "Kabaddi",
+  "Formula 1", "MotoGP", "Cycling", "Skating", "Archery",
+  "Shooting", "Weightlifting", "Gymnastics", "Volleyball", "Handball",
+  "American Football", "Ice Hockey", "Softball", "Squash", "Snooker",
+  "Chess", "Esports", "Marathon", "Triathlon", "Decathlon",
+  "Long Jump", "High Jump", "Pole Vault", "Javelin Throw", "Discus Throw",
+  "Shot Put", "Sprint", "Relay Race", "Freestyle Swimming", "Backstroke",
+  "Butterfly Stroke", "Breaststroke", "Climbing", "Surfing", "Skiing"
+],
+
+"2000s Songs": [
+  "In the End", "Numb", "Boulevard of Broken Dreams", "Hey Ya", "Yeah",
+  "Umbrella", "Hips Don't Lie", "Complicated", "Toxic", "Oops I Did It Again",
+  "Mr Brightside", "Seven Nation Army", "Fix You", "Clocks", "Viva La Vida",
+  "Beautiful Day", "Where Is The Love", "Lose Yourself", "Stan", "Without Me",
+  "Hot N Cold", "I Kissed a Girl", "Poker Face", "Bad Romance", "Just Dance",
+  "Low", "Crank That", "Temperature", "Candy Shop", "Gold Digger",
+  "Drop It Like It's Hot", "Apologize", "Bleeding Love", "Irreplaceable", "Crazy in Love",
+  "No One", "Because of You", "Since U Been Gone", "Sk8er Boi", "All the Small Things",
+  "Welcome to the Black Parade", "Sugar We're Going Down", "Take Me Out", "Use Somebody", "Sex on Fire",
+  "Hey There Delilah", "You're Beautiful", "Big Girls Don't Cry", "With You", "So What"
+],
+
+"2010s Songs": [
+  "Shape of You", "Blinding Lights", "Uptown Funk", "Despacito", "Closer",
+  "Someone Like You", "Rolling in the Deep", "Love Story", "Blank Space", "Shake It Off",
+  "Sorry", "Baby", "Peaches", "Stay", "Sunflower",
+  "Counting Stars", "Firework", "Roar", "Dark Horse", "Senorita",
+  "Havana", "Bad Guy", "Lovely", "Believer", "Radioactive",
+  "Demons", "Thunder", "Stressed Out", "Heathens", "We Found Love",
+  "Diamonds", "Take a Bow", "Halo", "Grenade", "Just the Way You Are",
+  "Locked Out of Heaven", "24K Magic", "Old Town Road", "God’s Plan", "Hotline Bling",
+  "One Dance", "Work", "Lean On", "Cheap Thrills", "Titanium",
+  "Let Her Go", "Rude", "Wake Me Up", "Counting Stars", "Pompeii"
+],
 };
 
 export default function App() {
