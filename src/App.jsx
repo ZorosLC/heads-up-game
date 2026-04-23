@@ -171,17 +171,17 @@ const decks = {
   "Mysterio", "Vulture", "Ultron", "Red Skull", "Killmonger"
 ],
 
-"Marvel": [
-  "Iron Man", "Captain America", "Thor", "Hulk", "Black Widow",
-  "Hawkeye", "Spider Man", "Doctor Strange", "Black Panther", "Scarlet Witch",
-  "Vision", "Falcon", "Winter Soldier", "Ant Man", "Wasp",
-  "Star Lord", "Gamora", "Drax", "Rocket", "Groot",
-  "Loki", "Thanos", "Nick Fury", "Maria Hill", "Shang Chi",
-  "Moon Knight", "She Hulk", "Ms Marvel", "Captain Marvel", "Deadpool",
-  "Wolverine", "Professor X", "Magneto", "Cyclops", "Storm",
-  "Jean Grey", "Beast", "Nightcrawler", "Quicksilver", "Cable",
-  "Venom", "Carnage", "Green Goblin", "Doctor Octopus", "Sandman",
-  "Mysterio", "Vulture", "Ultron", "Red Skull", "Killmonger"
+"DC": [
+  "Batman", "Superman", "Wonder Woman", "Flash", "Aquaman",
+  "Cyborg", "Green Lantern", "Martian Manhunter", "Shazam", "Black Adam",
+  "Joker", "Harley Quinn", "Lex Luthor", "Darkseid", "Deathstroke",
+  "Bane", "Riddler", "Penguin", "Two Face", "Scarecrow",
+  "Catwoman", "Poison Ivy", "Robin", "Nightwing", "Batgirl",
+  "Supergirl", "Green Arrow", "Black Canary", "Zatanna", "Constantine",
+  "Blue Beetle", "Hawkman", "Hawkgirl", "Doctor Fate", "Brainiac",
+  "Reverse Flash", "Zoom", "Ra’s al Ghul", "Talia al Ghul", "Deadshot",
+  "Suicide Squad", "Justice League", "Teen Titans", "Watchmen", "Sandman",
+  "Lucifer", "Peacemaker", "King Shark", "Amanda Waller", "Booster Gold"
 ],
 
 "Sitcoms": [
