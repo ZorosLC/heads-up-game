@@ -183,7 +183,7 @@ const decks = {
   "Suicide Squad", "Justice League", "Teen Titans", "Watchmen", "Sandman",
   "Lucifer", "Peacemaker", "King Shark", "Amanda Waller", "Booster Gold"
 ],
-"Tarak Mehta Ka Ooltah Chashmah": [
+"TMKOC": [
   "Jethalal", "Daya", "Tapu", "Champaklal", "Bapuji",
   "Taarak Mehta", "Anjali Mehta", "Atmaram Bhide", "Madhavi Bhide", "Sonu",
   "Dr Hathi", "Komal Hathi", "Goli", "Roshan Singh Sodhi", "Mrs Roshan Sodhi",
@@ -249,7 +249,7 @@ const decks = {
   "Office Prank"
 ],
 
-"The Big Bang Theory": [
+"The BBT": [
   "Sheldon Cooper", "Leonard Hofstadter", "Penny", "Howard Wolowitz", "Raj Koothrappali",
   "Amy Farrah Fowler", "Bernadette Rostenkowski", "Stuart Bloom",
 
@@ -267,7 +267,7 @@ const decks = {
   "String Theory", "Quantum Mechanics"
 ],
 
-"How I Met Your Mother": [
+"HIMYM": [
   "Ted Mosby", "Robin Scherbatsky", "Marshall Eriksen", "Lily Aldrin", "Barney Stinson",
   "Tracy McConnell", "Ranjit", "Victoria", "Stella", "James Stinson",
 
@@ -338,6 +338,39 @@ const decks = {
 ],
 };
 
+const deckMeta = {
+  "Anime": { icon: "🍥", color: "#e84393" },
+  "Car Brands": { icon: "🚗", color: "#0984e3" },
+  "Food": { icon: "🍔", color: "#e17055" },
+  "Brands": { icon: "🏷️", color: "#6c5ce7" },
+  "Video Games": { icon: "🎮", color: "#00b894" },
+
+  "Bollywood Movies": { icon: "🎬", color: "#d63031" },
+  "Bollywood Songs": { icon: "🎵", color: "#8e44ad" },
+  "Hollywood Movies": { icon: "🎥", color: "#0984e3" },
+  "Hollywood Actors": { icon: "⭐", color: "#f1c40f" },
+
+  "IPL": { icon: "🏏", color: "#e67e22" },
+  "Football": { icon: "⚽", color: "#27ae60" },
+  "NBA": { icon: "🏀", color: "#d35400" },
+
+  "Marvel": { icon: "🕷️", color: "#c0392b" },
+  "DC": { icon: "🦇", color: "#2c3e50" },
+
+  "TMKOC": { icon: "🏢", color: "#16a085" },
+  "Doraemon": { icon: "🤖", color: "#3498db" },
+
+  "Friends": { icon: "☕", color: "#e67e22" },
+  "The Office": { icon: "📎", color: "#7f8c8d" },
+  "The BBT": { icon: "🧠", color: "#9b59b6" },
+  "HIMYM": { icon: "🍺", color: "#2980b9" },
+
+  "Sitcoms": { icon: "😂", color: "#1abc9c" },
+  "Sports": { icon: "🏅", color: "#27ae60" },
+
+  "2000s Songs": { icon: "💿", color: "#8e44ad" },
+  "2010s Songs": { icon: "🎧", color: "#2980b9" }
+};
 export default function App() {
   const [players, setPlayers] = useState([]);
   const [input, setInput] = useState("");
@@ -519,6 +552,7 @@ const smallPill = {
     }, 300);
   };
 
+  
   return (
     <div
       onTouchStart={handleTouchStart}
@@ -625,32 +659,42 @@ const smallPill = {
         maxWidth: "400px"
       }}
     >
-      {Object.keys(decks).map((deckName) => (
-        <div
-          key={deckName}
-          onClick={() => {
-            setDeck([...decks[deckName]].sort(() => Math.random() - 0.5));
-            setCardIndex(0);
-            setTime(roundTime);
-            setScreen("game");
-          }}
-          style={{
-            padding: "14px",
-            borderRadius: "14px",
-            background: "linear-gradient(135deg, #1abc9c, #16a085)",
-            color: "#000",
-            fontWeight: "bold",
-            textAlign: "center",
-            cursor: "pointer",
-            boxShadow: "0 6px 15px rgba(0,0,0,0.3)",
-            transition: "all 0.2s ease"
-          }}
-          onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.95)")}
-          onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
-        >
-          {deckName}
-        </div>
-      ))}
+      {Object.keys(decks).map((deckName) => {
+  const meta = deckMeta[deckName] || { icon: "🎲", color: "#7f8c8d" };
+
+  return (
+    <div
+      key={deckName}
+      onClick={() => {
+        setDeck([...decks[deckName]].sort(() => Math.random() - 0.5));
+        setCardIndex(0);
+        setTime(roundTime);
+        setScreen("game");
+      }}
+      style={{
+        padding: "14px",
+        borderRadius: "14px",
+        background: `linear-gradient(135deg, ${meta.color}, #111)`,
+        color: "#fff",
+        fontWeight: "bold",
+        textAlign: "center",
+        cursor: "pointer",
+        boxShadow: "0 6px 15px rgba(0,0,0,0.3)",
+        transition: "all 0.2s ease"
+      }}
+      onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.95)")}
+      onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
+    >
+      <div style={{ fontSize: "20px", marginBottom: "6px" }}>
+        {meta.icon}
+      </div>
+
+      <div style={{ fontSize: "13px" }}>
+        {deckName}
+      </div>
+    </div>
+  );
+})}
     </div>
   </>
 )}
